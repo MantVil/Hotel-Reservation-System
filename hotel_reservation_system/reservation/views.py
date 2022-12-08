@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from reservation.models import Hotel, Reservation
 from rest_framework import generics
-from serializers import HotelSerializer, ReservationSerializer
+from .serializers import HotelSerializer, ReservationSerializer
 
 class HotelListView(generics.ListAPIView):
     queryset = Hotel.objects.all()
