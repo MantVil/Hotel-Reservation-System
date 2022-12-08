@@ -4,7 +4,7 @@ from rest_framework import serializers
 class HotelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hotel
-        field = ('id', 'name', 'address')
+        fields = ('id', 'name', 'address')
 
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:

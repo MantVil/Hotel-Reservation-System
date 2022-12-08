@@ -8,7 +8,7 @@ class HotelListView(generics.ListAPIView):
     serializer_class = HotelSerializer
 
 class HotelDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Reservation.objects.all()
+    queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
 
 
