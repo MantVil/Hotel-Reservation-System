@@ -9,3 +9,4 @@ class ReservationAdmin(admin.ModelAdmin):
 
 admin.site.register(Hotel, HotelAdmin)
 admin.site.register(Reservation, ReservationAdmin)
+
