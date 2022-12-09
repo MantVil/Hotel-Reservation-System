@@ -9,12 +9,28 @@ class Hotel(models.Model):
     def __str__(self):
         return self.name
 
+class RoomCategory(models.Model):
+    CATEGORY_CHOICES = [
+        ('KNG', 'King Room'),
+        ('DBL', 'Double Room'),
+        ('TPL', 'Triple Room'),
+        ('QDR', 'Quad Room'),
+        ('STE', 'Suite'),
+    ]
+
+    name = models.CharField(max_length=3, choices=CATEGORY_CHOICES)
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    max_occupacy = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.name
 
 class Reservation(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    room_category = models.ForeignKey(RoomCategory, on_delete=models.CASCADE)
     check_in_date = models.DateField()
     check_out_date = models.DateField()
     num_guests = models.IntegerField()
 
     def __str__(self):
-        return f'Reservation at {self.hotel.name} from {self.check_in_date} to {self.check_out_date}'
+        return f'Reservation at {self.hotel.name} {self.room_category.name} from {self.check_in_date} to {self.check_out_date}'
