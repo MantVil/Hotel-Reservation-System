@@ -1,21 +1,30 @@
 from django.shortcuts import render
 from reservation.models import Hotel, Reservation
 from rest_framework import generics
-from .serializers import HotelSerializer, ReservationSerializer
+from .models import Hotel, RoomCategory, Reservation
+from .serializers import HotelSerializer, RoomCategorySerializer, ReservationSerializer
 
 class HotelListView(generics.ListAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
 
-class HotelDetailView(generics.RetrieveUpdateDestroyAPIView):
+class HotelDetailView(generics.RetrieveAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
 
+class RoomCategoryListView(generics.ListAPIView):
+    queryset = RoomCategory.objects.all()
+    serializer_class = RoomCategorySerializer
 
-class ReservationListView(generics.ListCreateAPIView):
+class RoomCategoryDetailView(generics.RetrieveAPIView):
+    queryset = RoomCategory.objects.all()
+    serializer_class = RoomCategorySerializer
+
+class ReservationListView(generics.ListAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
 
-class ReservationDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset =  Reservation.objects.all()
+
+class ReservationCreateView(generics.CreateAPIView):
+    queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
