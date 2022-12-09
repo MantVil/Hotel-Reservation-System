@@ -6,6 +6,7 @@ class HotelSerializer(serializers.ModelSerializer):
         model = Hotel
         fields = ('id', 'name', 'address')
 
+    
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
