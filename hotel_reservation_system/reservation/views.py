@@ -33,5 +33,4 @@ class ReservationCreateView(generics.CreateAPIView):
     permission_classes =(IsAuthenticated)
 
 class UserRegistrationView(generics.CreateAPIView):
-    
-    serializer_class = UserRegistrationSerializer
+    erializer_class = UserRegistrationSerializer
