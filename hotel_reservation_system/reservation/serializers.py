@@ -29,8 +29,15 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only = True)
+    
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'password', 'email']
 
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
         fields = ['id', 'user', 'hotel', 'room_category', 'check_in_date', 'check_out_date', 'num_guests']
+
