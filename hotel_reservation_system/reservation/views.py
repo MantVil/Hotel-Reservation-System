@@ -29,3 +29,4 @@ class ReservationListView(generics.ListAPIView):
 class ReservationCreateView(generics.CreateAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
+    permission_classes =(IsAuthenticated)
