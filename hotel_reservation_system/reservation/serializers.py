@@ -29,6 +29,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation

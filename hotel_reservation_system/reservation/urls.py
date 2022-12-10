@@ -8,5 +8,6 @@ urlpatterns = [
     path('hotel/room-categories/<int:pk>', views.RoomCategoryDetailView.as_view()),
     path('hotel/reservations/', views.ReservationListView.as_view()),
     path('hotel/reservations/create/', views.ReservationCreateView.as_view()),
-    path('register/', views.UserRegistrationView.as_view()),
+    path('user/register/', views.UserRegistrationView.as_view(), name='user registration'),
+
 ]
