@@ -37,9 +37,9 @@ class Reservation(models.Model):
     num_guests = models.IntegerField()
 
     def clean(self):
-        for room_category in RoomCategory.objects.all():
-            if self.room_category.name == room_category.name and self.num_guests > room_category.max_occupacy:
-                raise ValidationError(f"Cannot have more than {room_category.max_occupacy} guests in a {room_category.name} room")
+        for room in RoomCategory.objects.all():
+            if self.room_category.name == room.name and self.num_guests > room.max_occupacy:
+                raise ValidationError(f"Cannot have more than {room.max_occupacy} guests in a {room.name} room")
 
     def __str__(self):
         return f'Reservation at {self.hotel.name} {self.room_category.name} from {self.check_in_date} to {self.check_out_date}'
