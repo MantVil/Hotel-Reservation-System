@@ -30,6 +30,7 @@ class RoomCategory(models.Model):
 
 class Reservation(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     room_category = models.ForeignKey(RoomCategory, on_delete=models.CASCADE, related_name ='reservations', default=None)
     check_in_date = models.DateField()
     check_out_date = models.DateField()
