@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from reservation.models import Hotel, Reservation
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from .models import Hotel, RoomCategory, Reservation
 from .serializers import HotelSerializer, RoomCategorySerializer, ReservationSerializer
 
