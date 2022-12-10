@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from reservation.models import Hotel, Reservation
+from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from .models import Hotel, RoomCategory, Reservation
-from .serializers import HotelSerializer, RoomCategorySerializer, ReservationSerializer
+from .serializers import HotelSerializer, RoomCategorySerializer, ReservationSerializer, UserRegistrationSerializer
 
 class HotelListView(generics.ListAPIView):
     queryset = Hotel.objects.all()
@@ -30,3 +31,7 @@ class ReservationCreateView(generics.CreateAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
     permission_classes =(IsAuthenticated)
+
+class UserRegistrationView(generics.CreateAPIView):
+    
+    serializer_class = UserRegistrationSerializer
