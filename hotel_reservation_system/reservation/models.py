@@ -43,3 +43,5 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f'Reservation at {self.hotel.name} {self.room_category.name} from {self.check_in_date} to {self.check_out_date}'
+
+

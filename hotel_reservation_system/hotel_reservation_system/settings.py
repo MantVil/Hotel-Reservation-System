@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'reservation',
     'rest_framework',
     'rest_framework.authtoken',
+
     
 
  

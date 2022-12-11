@@ -1,14 +1,20 @@
 from django.shortcuts import render, get_object_or_404
-from reservation.models import Hotel, Reservation
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
-from rest_framework.authtoken.models import Token
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions, authentication
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from .models import Hotel, RoomCategory, Reservation
-from .serializers import HotelSerializer, RoomCategorySerializer, ReservationSerializer, UserRegistrationSerializer, UserSerializer
+from .serializers import HotelSerializer, RoomCategorySerializer, ReservationSerializer, UserRegistrationSerializer, UserSerializer, LoginSerializer
+
 
 class HotelListView(generics.ListAPIView):
     queryset = Hotel.objects.all()
@@ -30,7 +36,6 @@ class ReservationListView(APIView):
     permission_classes = (IsAuthenticated)
 
     def get(self, request):
-        
         reservations = Reservation.objects.filter(user=request.user)
         serializer = ReservationSerializer(reservations, many=True)
         return Response(serializer.data)
@@ -42,7 +47,7 @@ class ReservationDetailView(APIView):
         # Get the reservation with the given ID
         reservation = get_object_or_404(Reservation, pk=pk)
 
-        # Only allow the user to see their own reservation
+            # Only allow the user to see their own reservation
         if reservation.user != request.user:
             return Response(status=403)
 
@@ -88,7 +93,6 @@ class UserUpdateView(generics.UpdateAPIView):
         if password and user.id == self.kwargs['pk']:
             if not user.check_password(password):
                 raise ValidationError({'password': 'Incorrect password'})
-
         serializer.save()
 
 
@@ -97,6 +101,23 @@ class UserDestroyView(generics.DestroyAPIView):
     queryset = User.objects.all()
 
     def get_object(self):
-        return self.request.user
+        return self.request.user()
 
-# class LoginView(ObtainAuthToken):
+class LoginView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+    authentication_classes = (authentication.BasicAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({"token": token.key})
+
+class LogoutView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        request.user.auth_token.delete()
+        return Response(status=204)
