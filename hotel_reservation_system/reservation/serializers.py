@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from .models import Hotel, RoomCategory, Reservation
 
@@ -29,12 +30,16 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only = True)
+    token = serializers.CharField(read_only=True)
+    user_id = serializers.IntegerField(read_only=True)
     
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'email']
+        fields = ['id', 'username', 'password', 'email', 'token', 'user_id']
+
 
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
