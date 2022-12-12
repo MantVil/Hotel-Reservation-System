@@ -5,10 +5,10 @@ import requests
 import tkinter as tk
 from tkinter import ttk
 
-base_url = 'http://127.0.0.1:8000/api/user'
+base_url = 'http://127.0.0.1:8000'
 
-register_url = base_url + '/register/'
-login_url = base_url + '/login/'
+register_url = base_url + 'api/user/create/'
+login_url = base_url + '/api-token-auth/'
 
 def register():
     username = username_field.get()
@@ -26,8 +26,10 @@ def register():
         messagebox.showinfo('Registration Successful', 'User registered successfully, now you able to Log In')
     else:
         messagebox.showerror('Error', 'An error occurred: ' + response.text)
+   # Declare a global variable to store the token
 
 def login():
+    global token  # Access the global token variable
     username = username_field.get()
     password = password_field.get()
 
@@ -37,17 +39,12 @@ def login():
     }
 
     response = requests.post(login_url, json=user_credentials)
-    if response.status_code == 201:
-        reservations_window = Toplevel(root)
-        reservations_window.title("Make a Reservation")
-        reservations_window.geometry('750x350')
-
-        reservations_frame = tk.Frame(reservations_window)
-        reservations_frame_label = tk.Label(reservations_frame, text="Make a Reservation")
-        reservations_frame_label.pack()
-        reservations_frame.pack()
+    if response.status_code == 200:
+        token = response.json()['token']  # Store the token
+        messagebox.showinfo('Log In Successful', 'Logged in successfully')
     else:
-        messagebox.showerror('Error', 'Incorrect username or password')
+        messagebox.showerror('Error', 'An error occurred: ' + response.text)
+
 
 root = tk.Tk()
 root.title("Hotel Reservation System")

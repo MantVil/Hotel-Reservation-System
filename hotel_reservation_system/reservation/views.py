@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import User, Hotel, RoomCategory, Reservation
 from .serializers import UserSerializer, HotelSerializer, RoomSerializer, ReservationSerializer
-from rest_framework import viewsets, generics, mixins
+from rest_framework import viewsets, generics, mixins, permissions,status
+from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
@@ -11,22 +13,25 @@ class UserList(generics.ListAPIView):
 class UserCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.AllowAny, )
 
-class UserUpdate(generics.UpdateAPIView):
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-class UserDetail(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-class UserDelete(generics.DestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    def delete(self, request, *args, **kwargs):
+        user = User.objects.filter(pk=self.request.user.pk)
+        if user.exists():
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            raise ValidationError('User doesn\'t exist.')
 
 class HotelList(generics.ListAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class HotelCreate(generics.CreateAPIView):
     queryset = Hotel.objects.all()

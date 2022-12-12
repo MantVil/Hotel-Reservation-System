@@ -1,13 +1,11 @@
 from django.urls import path
-from .views import UserList, UserCreate, UserUpdate, UserDetail, UserDelete, HotelList, HotelCreate, HotelUpdate, HotelDetail, HotelDelete, RoomList, RoomCreate, RoomUpdate, RoomDetail, RoomDelete, ReservationList, ReservationCreate, ReservationUpdate, ReservationDetail, ReservationDelete
+from .views import UserList, UserCreate, UserDetail, HotelList, HotelCreate, HotelUpdate, HotelDetail, HotelDelete, RoomList, RoomCreate, RoomUpdate, RoomDetail, RoomDelete, ReservationList, ReservationCreate, ReservationUpdate, ReservationDetail, ReservationDelete
 
 
 urlpatterns = [
     path('users/', UserList.as_view()),
     path('user/create/', UserCreate.as_view()),
-    path('user/<pk>/update/', UserUpdate.as_view()),
     path('user/<pk>/', UserDetail.as_view()),
-    path('user/<pk>/delete/', UserDelete.as_view()),
     path('hotels/', HotelList.as_view()),
     path('hotels/create/', HotelCreate.as_view()),
     path('hotels/<pk>/update/', HotelUpdate.as_view()),
