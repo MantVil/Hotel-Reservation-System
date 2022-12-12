@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from .models import User, Hotel
-from .serializers import UserSerializer, HotelSerializer
+from .models import User, Hotel, RoomCategory
+from .serializers import UserSerializer, HotelSerializer, RoomSerializer
 from rest_framework import viewsets, generics, mixins
 
 class UserList(generics.ListAPIView):
@@ -43,6 +43,27 @@ class HotelDetail(generics.RetrieveAPIView):
 class HotelDelete(generics.DestroyAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
+
+class RoomList(generics.ListAPIView):
+    queryset = RoomCategory.objects.all()
+    serializer_class = RoomSerializer
+
+class RoomCreate(generics.CreateAPIView):
+    queryset = RoomCategory.objects.all()
+    serializer_class = RoomSerializer
+
+class RoomUpdate(generics.UpdateAPIView):
+    queryset = RoomCategory.objects.all()
+    serializer_class = RoomSerializer
+
+class RoomDetail(generics.RetrieveAPIView):
+    queryset = RoomCategory.objects.all()
+    serializer_class = RoomSerializer
+
+class RoomDelete(generics.DestroyAPIView):
+    queryset = RoomCategory.objects.all()
+    serializer_class = RoomSerializer
+
 
 
 

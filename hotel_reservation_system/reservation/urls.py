@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import UserList, UserCreate, UserUpdate, UserDetail, UserDelete, HotelList, HotelCreate, HotelUpdate, HotelDetail, HotelDelete
+from .views import UserList, UserCreate, UserUpdate, UserDetail, UserDelete, HotelList, HotelCreate, HotelUpdate, HotelDetail, HotelDelete, RoomList, RoomCreate, RoomUpdate, RoomDetail, RoomDelete
+
 
 urlpatterns = [
     path('users/', UserList.as_view()),
@@ -12,7 +13,11 @@ urlpatterns = [
     path('hotels/<pk>/update/', HotelUpdate.as_view()),
     path('hotels/<pk>/', HotelDetail.as_view()),
     path('hotels/<pk>/delete/', HotelDelete.as_view()),
-
+    path('rooms/', RoomList.as_view()),
+    path('rooms/create/', RoomCreate.as_view()),
+    path('rooms/<pk>/update/', RoomUpdate.as_view()),
+    path('rooms/<pk>/', RoomDetail.as_view()),
+    path('rooms/<pk>/delete/', RoomDelete.as_view()),
 ]
 
 
