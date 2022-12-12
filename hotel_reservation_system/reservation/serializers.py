@@ -5,7 +5,7 @@ from .models import Hotel, RoomCategory, Reservation
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
+        fields = ['id', 'username', 'email', 'password']
 
 class HotelSerializer(serializers.ModelSerializer):
     class Meta:

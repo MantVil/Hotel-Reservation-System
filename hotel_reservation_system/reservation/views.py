@@ -1,40 +1,48 @@
-from rest_framework.views import APIView
-from rest_framework import status
-from rest_framework.response import Response
-from django.contrib.auth.models import User
-from .serializers import UserSerializer
+from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
+from .models import User, Hotel
+from .serializers import UserSerializer, HotelSerializer
+from rest_framework import viewsets, generics, mixins
 
-class UserDetailView(APIView):
-    def get_object(self, pk):
-        try:
-            return User.objects.get(pk=pk)
-        except User.DoesNotExist:
-            raise Http404
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    def get(self, request, pk):
-        user = self.get_object(pk)
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
+class UserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    def put(self, request, pk):
-        user = self.get_object(pk)
-        serializer = UserSerializer(user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class UserUpdate(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    def delete(self, request, pk):
-        user = self.get_object(pk)
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
+class UserDelete(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-class UserListView(APIView):
-    def get(self, request):
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+class HotelList(generics.ListAPIView):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
+
+class HotelCreate(generics.CreateAPIView):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
+
+class HotelUpdate(generics.UpdateAPIView):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
+
+class HotelDetail(generics.RetrieveAPIView):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
+
+class HotelDelete(generics.DestroyAPIView):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
 
 
 
