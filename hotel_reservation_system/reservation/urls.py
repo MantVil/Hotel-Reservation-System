@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserList, UserCreate, UserUpdate, UserDetail, UserDelete, HotelList, HotelCreate, HotelUpdate, HotelDetail, HotelDelete, RoomList, RoomCreate, RoomUpdate, RoomDetail, RoomDelete
+from .views import UserList, UserCreate, UserUpdate, UserDetail, UserDelete, HotelList, HotelCreate, HotelUpdate, HotelDetail, HotelDelete, RoomList, RoomCreate, RoomUpdate, RoomDetail, RoomDelete, ReservationList, ReservationCreate, ReservationUpdate, ReservationDetail, ReservationDelete
 
 
 urlpatterns = [
@@ -14,11 +14,17 @@ urlpatterns = [
     path('hotels/<pk>/', HotelDetail.as_view()),
     path('hotels/<pk>/delete/', HotelDelete.as_view()),
     path('rooms/', RoomList.as_view()),
-    path('rooms/create/', RoomCreate.as_view()),
-    path('rooms/<pk>/update/', RoomUpdate.as_view()),
-    path('rooms/<pk>/', RoomDetail.as_view()),
-    path('rooms/<pk>/delete/', RoomDelete.as_view()),
+    path('room//create/', RoomCreate.as_view()),
+    path('room/<pk>/update/', RoomUpdate.as_view()),
+    path('room/<pk>/', RoomDetail.as_view()),
+    path('room/<pk>/delete/', RoomDelete.as_view()),
+    path('reservations/', ReservationList.as_view()),
+    path('reservation/create/', ReservationCreate.as_view()),
+    path('reservation/<pk>/update/', ReservationUpdate.as_view()),
+    path('reservation/<pk>/', ReservationDetail.as_view()),
+    path('reservation/<pk>/delete/', ReservationDelete.as_view()),
 ]
+
 
 
 
