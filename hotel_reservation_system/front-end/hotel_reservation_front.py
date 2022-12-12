@@ -37,11 +37,17 @@ def login():
     }
 
     response = requests.post(login_url, json=user_credentials)
-    if response.status_code == 200:
-        token = response.json().get('token')
+    if response.status_code == 201:
+        reservations_window = Toplevel(root)
+        reservations_window.title("Make a Reservation")
+        reservations_window.geometry('750x350')
+
+        reservations_frame = tk.Frame(reservations_window)
+        reservations_frame_label = tk.Label(reservations_frame, text="Make a Reservation")
+        reservations_frame_label.pack()
+        reservations_frame.pack()
     else:
         messagebox.showerror('Error', 'Incorrect username or password')
-
 
 root = tk.Tk()
 root.title("Hotel Reservation System")
