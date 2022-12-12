@@ -112,12 +112,16 @@ class LoginView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
+        # Generate a new token for the user
         token, _ = Token.objects.get_or_create(user=user)
         return Response({"token": token.key})
 
+
 class LogoutView(APIView):
-    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication, BasicAuthentication)
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        request.user.auth_token.delete()
-        return Response(status=204)
+        user = request.user
+        user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
