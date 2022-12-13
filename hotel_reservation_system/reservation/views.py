@@ -1,4 +1,4 @@
-from rest_framework import generics, viewsets
+from rest_framework import generics, viewsets, authentication, permissions
 from rest_framework.response import Response
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -6,23 +6,22 @@ from rest_framework.views import APIView
 from .models import Hotel, RoomCategory, Reservation
 from .serializers import HotelSerializer, RoomCategorySerializer, ReservationSerializer
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+
+from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from django.contrib.auth import authenticate
 
 
-
-class LoginView(APIView):
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, format=None):
-        username = request.data.get('username')
-        password = request.data.get('password')
-
-        user = authenticate(username=username, password=password)
-        if user:
-            return Response({'message': 'Login succeeded'})
-        else:
-            return Response({'message': 'Login failed'}, status=401)
-
+class UserListView(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes= [permissions.IsAuthenticated]
+    def get(self, request, format=None):
+        usernames= [user.username for user in User.objects.all()]
+        return Response(usernames)
 
 class HotelList(generics.ListCreateAPIView):
     queryset = Hotel.objects.all()
