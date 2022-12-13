@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_save
+from rest_framework.authtoken.models import Token
+from django.conf import settings
+from django.dispatch import receiver
 
 class Hotel(models.Model):
     name = models.CharField(max_length=100)
@@ -33,6 +37,7 @@ class Reservation(models.Model):
     check_out_date = models.DateField()
     num_guests = models.IntegerField()
 
+
     def clean(self):
         for room in RoomCategory.objects.all():
             if self.room_category.name == room.name and self.num_guests > room.max_occupacy:
@@ -41,4 +46,7 @@ class Reservation(models.Model):
     def __str__(self):
         return f'Reservation at {self.hotel.name} {self.room_category.name} from {self.check_in_date} to {self.check_out_date}'
 
-
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
