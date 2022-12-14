@@ -8,8 +8,6 @@ from .serializers import HotelSerializer, RoomCategorySerializer, ReservationSer
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-
-from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -22,6 +20,7 @@ class UserListView(APIView):
     def get(self, request, format=None):
         usernames= [user.username for user in User.objects.all()]
         return Response(usernames)
+        
 
 class HotelList(generics.ListCreateAPIView):
     queryset = Hotel.objects.all()
@@ -32,8 +31,8 @@ class HotelList(generics.ListCreateAPIView):
 class HotelDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [TokenAuthentication, SessionAuthentication]
+    # permission_classes = [IsAuthenticated]
 
 class RoomCategoryList(generics.ListCreateAPIView):
     queryset = RoomCategory.objects.all()
@@ -47,11 +46,11 @@ class RoomCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
-class ReservationList(generics.CreateAPIView):
+class ReservationList(generics.ListCreateAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # authentication_classes = [TokenAuthentication, SessionAuthentication]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class ReservationDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reservation.objects.all()

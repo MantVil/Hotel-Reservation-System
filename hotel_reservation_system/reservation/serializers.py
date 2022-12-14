@@ -9,9 +9,9 @@ class HotelSerializer(serializers.ModelSerializer):
 class RoomCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomCategory
-        fields = ('id', 'user', 'name', 'hotel', 'max_occupacy')
+        fields = ('id', 'name', 'hotel', 'max_occupacy')
 
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
-        fields = ('id', 'hotel', 'user_id', 'room_category', 'check_in_date', 'check_out_date', 'num_guests')
+        fields = ('id', 'hotel', 'user', 'room_category', 'check_in_date', 'check_out_date', 'num_guests')
