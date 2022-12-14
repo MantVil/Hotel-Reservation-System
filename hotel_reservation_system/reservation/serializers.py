@@ -4,12 +4,12 @@ from .models import Hotel, RoomCategory, Reservation
 class HotelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hotel
-        fields = ('id', 'user_id' 'name', 'address')
+        fields = ('id', 'name', 'address')
 
 class RoomCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomCategory
-        fields = ('id', 'user_id', 'name', 'hotel', 'max_occupacy')
+        fields = ('id', 'user', 'name', 'hotel', 'max_occupacy')
 
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
