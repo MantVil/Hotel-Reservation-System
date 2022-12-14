@@ -1,77 +1,70 @@
 import tkinter as tk
-from tkinter import ttk
 import requests
-from tkinter import messagebox
-import json
 
-# Set the URL for the login endpoint
-login_url = 'http://127.0.0.1:8000/api-token-auth/'
-
-
-
-def login():
-    global token
-    username = username_field.get()
-    password = password_field.get()
-
-    user_credentials = {
-        'username': username,
-        'password': password
-    }
-    response = requests.post(login_url, json=user_credentials)
-
-    if response.status_code == 200:
-        token = response.json()['token']
-        main_window = tk.Toplevel(root)
-        main_window.title("Hotel Reservation System")
-        main_window.geometry('750x350')
-        notebook = ttk.Notebook(main_window)
-        
-        hotels_frame = tk.Frame(notebook)
-        
-        hotels_tree = ttk.Treeview(hotels_frame, columns=('name', 'address'))
-        hotels_tree.heading('#0', text="ID")
-        hotels_tree.heading('name', text='Name')
-        hotels_tree.heading('address', text='Address')
-
-        def make_reservation(hotel, room_category, check_in_date, check_out_date, num_guests):
-            payload = {
-                'hotel': hotel,
-                'room_category': room_category,
-                'check_in_date': check_in_date,
-                'check_out_date': check_out_date,
-                'num_guests': num_guests
-            }
-            response = requests.get('http://127.0.0.1:8000/api/hotel/reservations/', json=payload)
-            if response.status_code == 200:
-                print('Reservation successful!')
-            else:
-                print('Error: reservation failed')
-
-            make_reservation_button = tk.Button(root, text="Login", command=make_reservation)
-            make_reservation_button.pack(ipadx=10, ipady=10)
-
-            make_reservation_label = tk.Label(root, text = "Rezervacija")
-            make_reservation_label.pack() 
-
-
+# Create the root window
 root = tk.Tk()
-root.geometry("350x250")
-root.title("Hotel Reservation System - Login")
 
-username_label = tk.Label(root, text="Username")
-username_label.pack(ipadx=10, ipady=10)
-username_field = tk.Entry(root)
-username_field.pack(ipadx=10, ipady=10)
+# Create a label to display the list of hotels
+hotels_label = tk.Label(root, text="List of hotels:")
+hotels_label.pack()
 
-password_label = tk.Label(root, text = "Password")
-password_label.pack(ipadx=10, ipady=10)
-password_field = tk.Entry(root, show="*")
-password_field.pack(ipadx=10, ipady=10)
+# Create a listbox to display the hotels
+hotels_listbox = tk.Listbox(root)
+hotels_listbox.pack()
 
-login_button = tk.Button(root, text="Login", command=login)
-login_button.pack(ipadx=10, ipady=10)
+# Define a function to refresh the list of hotels
+def refresh_hotels_list():
+    # Make a GET request to the /api/hotels/ endpoint to get the list of hotels
+    response = requests.get('http://127.0.0.1:8000/api/hotels/')
 
+    # Check that the request was successful
+    if response.status_code == 200:
+        # Clear the listbox
+        hotels_listbox.delete(0, tk.END)
+
+        # Get the list of hotels from the response data
+        hotels = response.json()
+
+        # Add each hotel to the listbox
+        for hotel in hotels:
+            hotels_listbox.insert(tk.END, hotel['name'])
+
+# Define a function to add a new hotel
+def add_hotel():
+    # Get the hotel name and address from the user
+    hotel_name = hotel_name_entry.get()
+    hotel_address = hotel_address_entry.get()
+
+    # Make a POST request to the /api/hotels/ endpoint to add the hotel
+    response = requests.post('http://127.0.0.1:8000/api/hotels/', json={'name': hotel_name, 'address': hotel_address})
+
+    # Check that the request was successful
+    if response.status_code == 201:
+        # Refresh the list of hotels
+        refresh_hotels_list()
+
+# Create a label for the hotel name entry field
+hotel_name_label = tk.Label(root, text="Hotel name:")
+hotel_name_label.pack()
+
+# Create an entry field for the hotel name
+hotel_name_entry = tk.Entry(root)
+hotel_name_entry.pack()
+
+# Create a label for the hotel address entry field
+hotel_address_label = tk.Label(root, text="Hotel address:")
+hotel_address_label.pack()
+
+# Create an entry field for the hotel address
+hotel_address_entry = tk.Entry(root)
+hotel_address_entry.pack()
+
+# Create a button to add the hotel
+add_hotel_button = tk.Button(root, text="Add hotel", command=add_hotel)
+add_hotel_button.pack()
+
+# Refresh the list of hotels
+refresh_hotels_list()
+
+# Start the Tkinter event loop
 root.mainloop()
-
-    
