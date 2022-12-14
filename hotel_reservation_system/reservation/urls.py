@@ -3,9 +3,9 @@ from reservation import views
 urlpatterns = [
     path('hotels/', views.HotelList.as_view()),
     path('hotel/<int:pk>', views.HotelDetail.as_view()),
-    # path('hotel/room-categories/', views.RoomCategoryListView.as_view()),
+    path('hotel/room-categories/', views.RoomCategoryList.as_view()),
     # path('hotel/room-categories/<int:pk>', views.RoomCategoryDetailView.as_view()),
-    # path('hotel/reservations/', views.ReservationListView.as_view(), name='reservation-list'),
+    path('hotel/reservations/', views.ReservationList.as_view(), name='reservation-list'),
     # path('hotel/reservations/<int:pk>/', views.ReservationDetailView.as_view()),
     # path('user/register/', views.UserRegistrationView.as_view(), name='user-registration'),
     # path('users/<int:pk>/', views.UserDetailView.as_view(), name = 'user-detail'),

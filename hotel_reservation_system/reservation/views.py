@@ -26,9 +26,9 @@ class UserListView(APIView):
 class HotelList(generics.ListCreateAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
-
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+ 
 class HotelDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
@@ -38,8 +38,8 @@ class HotelDetail(generics.RetrieveUpdateDestroyAPIView):
 class RoomCategoryList(generics.ListCreateAPIView):
     queryset = RoomCategory.objects.all()
     serializer_class = RoomCategorySerializer
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class RoomCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = RoomCategory.objects.all()
@@ -47,11 +47,11 @@ class RoomCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
-class ReservationList(generics.ListCreateAPIView):
+class ReservationList(generics.CreateAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class ReservationDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reservation.objects.all()
