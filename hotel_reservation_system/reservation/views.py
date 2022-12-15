@@ -25,14 +25,14 @@ class UserListView(APIView):
 class HotelList(generics.ListCreateAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
-    # authentication_classes = [TokenAuthentication, SessionAuthentication]
-    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
  
 class HotelDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
-    # authentication_classes = [TokenAuthentication, SessionAuthentication]
-    # permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
 
 class RoomCategoryList(generics.ListCreateAPIView):
     queryset = RoomCategory.objects.all()
@@ -49,8 +49,8 @@ class RoomCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
 class ReservationList(generics.ListCreateAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
-    # authentication_classes = [TokenAuthentication, SessionAuthentication]
-    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class ReservationDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reservation.objects.all()
